@@ -1,26 +1,27 @@
-# Start with a base Python image
 FROM python:3.10-slim
 
-# Install system dependencies including Tesseract
-RUN apt-get update && apt-get install -y \
-    tesseract-ocr \
-    libglib2.0-0 \
-    libsm6 \
-    libxext6 \
-    libxrender-dev \
-    && apt-get clean
+# Install system dependencies including Tesseract OCR
+RUN apt-get update \
+    && apt-get install -y --no-install-recommends \
+       tesseract-ocr \
+       libglib2.0-0 \
+       libsm6 \
+       libxext6 \
+       libxrender-dev \
+    && apt-get clean \
+    && rm -rf /var/lib/apt/lists/*
 
-# Set the working directory inside the container
+# Set working directory
 WORKDIR /app
 
-# Copy the entire project into the container
-COPY . .
+# Copy project files
+COPY . /app
 
 # Install Python dependencies
 RUN pip install --no-cache-dir -r requirements.txt
 
-# Expose the port that the app will run on
+# Expose default port
 EXPOSE 8000
 
-# Start the FastAPI application using Uvicorn
-CMD ["uvicorn", "lab_api:app", "--host", "0.0.0.0", "--port", "8000"]
+# Start the FastAPI application using Uvicorn with port expansion
+CMD sh -c "uvicorn lab_api:app --host 0.0.0.0 --port ${PORT:-8000}"
