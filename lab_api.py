@@ -10,7 +10,7 @@ import re
 from rapidfuzz import fuzz
 
 # Tesseract path (adjust if needed)
-#pytesseract.pytesseract.tesseract_cmd = r"C:\Program Files\Tesseract-OCR\tesseract.exe"
+pytesseract.pytesseract.tesseract_cmd = r"C:\Program Files\Tesseract-OCR\tesseract.exe"
 
 # FastAPI app
 app = FastAPI(title="Lab Report OCR Service")
