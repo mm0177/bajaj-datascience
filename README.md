@@ -1,0 +1,2 @@
+# TO RUN THE CODE  
+## CLONE THE REPOSITORY , THEN GO TO LAB_API.PY AND THE USE THE COMMAND "uvicorn lab_api:app --reload"
