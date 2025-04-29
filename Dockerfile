@@ -23,6 +23,5 @@ RUN pip install --no-cache-dir -r requirements.txt
 # Expose default port (for documentation; actual port comes from env)
 EXPOSE 8000
 
-# Use shell form for CMD so that $PORT is expanded at runtime
-# If PORT is not set by the environment, default to 8000
-CMD uvicorn lab_api:app --host 0.0.0.0 --port ${PORT:-8000}
+# Use exec form to invoke shell and correctly handle environment variable substitution
+CMD ["sh", "-c", "uvicorn lab_api:app --host 0.0.0.0 --port ${PORT:-8000}"]
