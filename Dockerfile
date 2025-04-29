@@ -20,8 +20,12 @@ COPY . /app
 # Install Python dependencies
 RUN pip install --no-cache-dir -r requirements.txt
 
-# Expose default port (for documentation; actual port comes from env)
+# Copy and make the startup script executable
+COPY start.sh /app/start.sh
+RUN chmod +x /app/start.sh
+
+# Expose default port (documentation only)
 EXPOSE 8000
 
-# Use exec form to invoke shell and correctly handle environment variable substitution
-CMD ["sh", "-c", "uvicorn lab_api:app --host 0.0.0.0 --port ${PORT:-8000}"]
+# Run the startup script
+CMD ["/app/start.sh"]
