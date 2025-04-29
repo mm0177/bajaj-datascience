@@ -20,8 +20,9 @@ COPY . /app
 # Install Python dependencies
 RUN pip install --no-cache-dir -r requirements.txt
 
-# Expose default port
+# Expose default port (for documentation; actual port comes from env)
 EXPOSE 8000
 
-# Start the FastAPI application using Uvicorn with port expansion
-CMD sh -c "uvicorn lab_api:app --host 0.0.0.0 --port ${PORT:-8000}"
+# Use shell form for CMD so that $PORT is expanded at runtime
+# If PORT is not set by the environment, default to 8000
+CMD uvicorn lab_api:app --host 0.0.0.0 --port ${PORT:-8000}
